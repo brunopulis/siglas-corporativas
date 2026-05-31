@@ -1,4 +1,4 @@
-# 📖 Dicionário Informal
+# Dicionário Informal
 
 **Glossário colaborativo de abreviações e gírias do ambiente corporativo dos EUA.**
 
@@ -74,7 +74,7 @@ Após adicionar o arquivo, execute `pnpm build` para gerar a página estática.
 
 ```
 /
-├── content/verbetes/      # 🗂️ Dados — arquivos .md (um por verbete)
+├── content/verbetes/      # Dados — arquivos .md (um por verbete)
 ├── src/
 │   ├── components/        # SearchBar.astro, VerbeteCard.astro
 │   ├── layouts/           # Base.astro
@@ -90,4 +90,4 @@ Após adicionar o arquivo, execute `pnpm build` para gerar a página estática.
 
 ## Licença
 
-MIT
+[MIT](LICENSE)
