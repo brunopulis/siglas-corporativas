@@ -1,0 +1,122 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Dicionário Informal - Glossário colaborativo de abreviações e gírias do ambiente corporativo dos EUA" />
+    <title>{title} | Dicionário Informal</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --green-br: #006838;
+        --blue-br: #1B3A6B;
+        --red-us: #B22234;
+        --yellow-br: #FFCD00;
+        --bg: #F5F0EB;
+        --bg-card: #FFFFFF;
+        --text: #1A1A2E;
+        --text-light: #4A4A5A;
+        --radius: 16px;
+        --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      }
+
+      html { font-family: var(--font); color: var(--text); background: var(--bg); scroll-behavior: smooth; }
+
+      body { min-height: 100vh; display: flex; flex-direction: column; }
+
+      header {
+        background: linear-gradient(135deg, var(--green-br), var(--blue-br));
+        padding: 1.5rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 20px,
+          rgba(255,255,255,0.05) 20px,
+          rgba(255,255,255,0.05) 40px
+        );
+        pointer-events: none;
+      }
+
+      header h1 { font-size: 2.5rem; color: white; position: relative; z-index: 1; }
+      header h1 a { color: white; text-decoration: none; }
+      header p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-top: 0.3rem; position: relative; z-index: 1; }
+
+      nav {
+        background: white;
+        padding: 0.8rem 2rem;
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        transition: all 0.2s;
+      }
+
+      nav a:hover { background: var(--green-br); color: white; }
+
+      main { flex: 1; max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; width: 100%; }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-light);
+        font-size: 0.9rem;
+        border-top: 2px solid rgba(27, 58, 107, 0.1);
+      }
+
+      footer a { color: var(--blue-br); text-decoration: none; font-weight: 600; }
+      footer a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">📖 Dicionário Informal</a></h1>
+      <p>O guia descontraído das abreviações corporativas dos EUA 🇺🇸</p>
+    </header>
+
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/categorias">📂 Categorias</a>
+      <a href="/contribuir">✍️ Contribuir</a>
+    </nav>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>
+        Feito com 💜 por <a href="https://github.com/anomalyco/opencode">colaboradores</a> •
+        Dicionário Informal • <a href="https://github.com">Contribua no GitHub</a>
+      </p>
+    </footer>
+  </body>
+</html>

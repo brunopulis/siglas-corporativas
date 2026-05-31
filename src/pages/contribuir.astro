@@ -1,0 +1,111 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Contribuir">
+  <article class="contribuir-page">
+    <h1>{'\u{270D}\u{FE0F}'} Contribuir</h1>
+    <p class="subtitle">Ajude a comunidade a desvendar as abrevia&ccedil;&otilde;es corporativas!</p>
+
+    <div class="card">
+      <h2>{'\u{1F4CC}'} Como funciona</h2>
+      <ol>
+        <li><strong>Adicione um verbete</strong> preenchendo o formul&aacute;rio do Tina CMS</li>
+        <li>A submiss&atilde;o cria um <strong>Pull Request</strong> no GitHub</li>
+        <li>Ap&oacute;s revis&atilde;o, o verbete entra no ar! 🎉</li>
+      </ol>
+    </div>
+
+    <div class="card cta-card">
+      <h2>🚀 Quer contribuir agora?</h2>
+      <p>Voc&ecirc; pode editar o conte&uacute;do diretamente pelo Tina CMS clicando no bot&atilde;o abaixo.</p>
+      <a href="/admin" class="cta-button">Abrir Tina CMS 📝</a>
+    </div>
+
+    <div class="card">
+      <h2>{'\u{1F4CB}'} Regras b&aacute;sicas</h2>
+      <ul>
+        <li>A abrevia&ccedil;&atilde;o deve ser usada no ambiente corporativo dos EUA</li>
+        <li>Explique em portugu&ecirc;s claro e objetivo</li>
+        <li>Inclua um exemplo realista de uso</li>
+        <li>Escolha a categoria mais adequada</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>{'\u{1F517}'} Links &uacute;teis</h2>
+      <ul>
+        <li><a href="https://github.com">Reposit&oacute;rio no GitHub</a> &mdash; veja o c&oacute;digo e contribua com PRs</li>
+        <li><a href="/">Home do Dicion&aacute;rio Informal</a></li>
+      </ul>
+    </div>
+
+    <a href="/" class="back">&larr; Voltar para home</a>
+  </article>
+</Base>
+
+<style>
+  .contribuir-page { max-width: 700px; margin: 0 auto; }
+
+  .contribuir-page h1 { font-size: 2rem; color: var(--blue-br); margin-bottom: 0.3rem; }
+
+  .subtitle { color: var(--text-light); margin-bottom: 2rem; }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .card ol, .card ul {
+    margin-left: 1.2rem;
+    line-height: 2;
+  }
+
+  .card li a { color: var(--blue-br); font-weight: 600; text-decoration: none; }
+  .card li a:hover { text-decoration: underline; }
+
+  .cta-card {
+    text-align: center;
+    border: 3px dashed rgba(0, 104, 56, 0.3);
+  }
+
+  .cta-card p { margin-bottom: 1.2rem; color: var(--text-light); }
+
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--green-br), var(--blue-br));
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 104, 56, 0.3);
+  }
+
+  .back {
+    display: inline-block;
+    color: var(--blue-br);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .back:hover { background: rgba(27, 58, 107, 0.1); }
+</style>

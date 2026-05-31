@@ -1,0 +1,102 @@
+---
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import Base from "../layouts/Base.astro";
+import SearchBar from "../components/SearchBar.astro";
+import VerbeteCard from "../components/VerbeteCard.astro";
+
+function slugify(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+const contentDir = path.resolve("content/verbetes");
+const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+
+const verbetes = files
+  .map((file) => {
+    const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
+    const { data } = matter(raw);
+    return { frontmatter: data, slug: slugify(data.abreviacao) };
+  })
+  .sort((a, b) => a.frontmatter.abreviacao.localeCompare(b.frontmatter.abreviacao));
+
+const categorias = new Set(verbetes.map((v) => v.frontmatter.categoria));
+---
+
+<Base title="Home">
+  <section class="hero">
+    <h2>O que significa <span class="highlight">OOO</span>, <span class="highlight">FYI</span>, <span class="highlight">ASAP</span>?</h2>
+    <p>
+      Se voc&ecirc; trabalha com gringos e se sente perdido com as abrevia&ccedil;&otilde;es, esse &eacute; o seu lugar! 🚀
+      Pesquise, aprenda e contribua com o gloss&aacute;rio colaborativo.
+    </p>
+    <div class="stats">
+      <span class="stat"><strong>{verbetes.length}</strong> verbetes</span>
+      <span class="stat"><strong>{categorias.size}</strong> categorias</span>
+    </div>
+  </section>
+
+  <SearchBar />
+
+  <div class="grid">
+    {verbetes.map((v) => (
+      <div class="verbete-card" data-search={`${v.frontmatter.abreviacao} ${v.frontmatter.significado} ${v.frontmatter.categoria}`.toLowerCase()}>
+        <VerbeteCard
+          abreviacao={v.frontmatter.abreviacao}
+          significado={v.frontmatter.significado}
+          categoria={v.frontmatter.categoria}
+          slug={v.slug}
+        />
+      </div>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .hero h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .highlight {
+    background: var(--green-br);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+
+  .hero p {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .stat {
+    background: var(--bg-card);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    font-size: 0.95rem;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+</style>

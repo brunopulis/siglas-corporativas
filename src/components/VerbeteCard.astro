@@ -1,0 +1,69 @@
+---
+export interface Props {
+  abreviacao: string;
+  significado: string;
+  categoria: string;
+  slug: string;
+}
+
+const { abreviacao, significado, categoria, slug } = Astro.props;
+
+const emojiMap: Record<string, string> = {
+  comunicacao: '\u{1F4AC}',
+  reuniao: '\u{1F4C5}',
+  tecnologia: '\u{1F4BB}',
+  slang: '\u{1F60E}',
+  geral: '\u{1F4CC}',
+};
+---
+
+<a href={`/${slug}`} class="card">
+  <span class="emoji">{emojiMap[categoria] || '\u{1F4CC}'}</span>
+  <div class="info">
+    <span class="abreviacao">{abreviacao}</span>
+    <span class="significado">{significado}</span>
+  </div>
+  <span class="categoria">{categoria}</span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    border-left: 4px solid var(--green-br);
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 104, 56, 0.15);
+    border-left-color: var(--red-us);
+  }
+
+  .emoji { font-size: 1.8rem; }
+
+  .info { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+
+  .abreviacao { font-size: 1.2rem; font-weight: 700; color: var(--blue-br); }
+
+  .significado { font-size: 0.9rem; color: var(--text-light); }
+
+  .categoria {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--green-br);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+</style>

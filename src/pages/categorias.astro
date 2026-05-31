@@ -1,0 +1,106 @@
+---
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import Base from "../layouts/Base.astro";
+import VerbeteCard from "../components/VerbeteCard.astro";
+
+function slugify(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+const contentDir = path.resolve("content/verbetes");
+const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+
+const all = files.map((file) => {
+  const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
+  const { data } = matter(raw);
+  return { frontmatter: data, slug: slugify(data.abreviacao) };
+});
+
+const categorias: Record<string, typeof all> = {};
+for (const v of all) {
+  const cat = v.frontmatter.categoria;
+  if (!categorias[cat]) categorias[cat] = [];
+  categorias[cat].push(v);
+}
+
+for (const cat of Object.keys(categorias)) {
+  categorias[cat].sort((a, b) =>
+    a.frontmatter.abreviacao.localeCompare(b.frontmatter.abreviacao)
+  );
+}
+
+const emojiMap: Record<string, string> = {
+  comunicacao: "\u{1F4AC}",
+  reuniao: "\u{1F4C5}",
+  tecnologia: "\u{1F4BB}",
+  slang: "\u{1F60E}",
+  geral: "\u{1F4CC}",
+};
+
+const catLabels: Record<string, string> = {
+  comunicacao: "Comunica\u00E7\u00E3o",
+  reuniao: "Reuni\u00E3o & Escrit\u00F3rio",
+  tecnologia: "Tecnologia",
+  slang: "G\u00EDrias & Internet",
+  geral: "Geral",
+};
+
+const catOrder = ["comunicacao", "reuniao", "tecnologia", "slang", "geral"];
+---
+
+<Base title="Categorias">
+  <h1 class="page-title">{'\u{1F4C2}'} Categorias</h1>
+  <p class="subtitle">Navegue pelos verbetes por categoria</p>
+
+  {catOrder.filter(c => categorias[c]).map((cat) => (
+    <section class="category-section">
+      <h2 class="cat-title">
+        <span class="cat-emoji">{emojiMap[cat]}</span>
+        {catLabels[cat]}
+        <span class="count">{categorias[cat].length}</span>
+      </h2>
+      <div class="grid">
+        {categorias[cat].map((v) => (
+          <VerbeteCard
+            abreviacao={v.frontmatter.abreviacao}
+            significado={v.frontmatter.significado}
+            categoria={v.frontmatter.categoria}
+            slug={v.slug}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.3rem; color: var(--blue-br); }
+
+  .subtitle { color: var(--text-light); margin-bottom: 2rem; }
+
+  .category-section { margin-bottom: 2.5rem; }
+
+  .cat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .cat-emoji { font-size: 1.5rem; }
+
+  .count {
+    font-size: 0.85rem;
+    background: var(--green-br);
+    color: white;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  .grid { display: flex; flex-direction: column; gap: 0.8rem; }
+</style>

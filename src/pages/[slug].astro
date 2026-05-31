@@ -1,0 +1,166 @@
+---
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { Marked } from "marked";
+import Base from "../layouts/Base.astro";
+
+const marked = new Marked();
+
+export async function getStaticPaths() {
+  function slugify(text: string) {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  const contentDir = path.resolve("content/verbetes");
+  const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+
+  return files.map((file) => {
+    const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
+    const { data } = matter(raw);
+    return {
+      params: { slug: slugify(data.abreviacao) },
+      props: { file, frontmatter: data, body: raw },
+    };
+  });
+}
+
+const { file, frontmatter, body } = Astro.props as {
+  file: string;
+  frontmatter: { abreviacao: string; significado: string; categoria: string; exemplo: string; contribuidor?: string };
+  body: string;
+};
+
+const { content: markdownBody } = matter(body);
+const html = marked.parse(markdownBody) as string;
+
+const emojiMap: Record<string, string> = {
+  comunicacao: "\u{1F4AC}",
+  reuniao: "\u{1F4C5}",
+  tecnologia: "\u{1F4BB}",
+  slang: "\u{1F60E}",
+  geral: "\u{1F4CC}",
+};
+---
+
+<Base title={`${frontmatter.abreviacao} - ${frontmatter.significado}`}>
+  <article class="verbete-page">
+    <div class="header">
+      <span class="emoji">{emojiMap[frontmatter.categoria] || "\u{1F4CC}"}</span>
+      <div>
+        <h1>{frontmatter.abreviacao}</h1>
+        <p class="significado">{frontmatter.significado}</p>
+      </div>
+      <span class="categoria">{frontmatter.categoria}</span>
+    </div>
+
+    <div class="card explicacao">
+      <h2>{'\u{1F4DD}'} Explicação</h2>
+      <div set:html={html} />
+    </div>
+
+    <div class="card exemplo">
+      <h2>{'\u{1F4AC}'} Exemplo de uso</h2>
+      <blockquote>{frontmatter.exemplo}</blockquote>
+    </div>
+
+    {frontmatter.contribuidor && (
+      <p class="contribuidor">{'\u{270D}\u{FE0F}'} Contribuído por {frontmatter.contribuidor}</p>
+    )}
+
+    <a href="/" class="back">&larr; Voltar para home</a>
+  </article>
+</Base>
+
+<style>
+  .verbete-page { max-width: 700px; margin: 0 auto; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .emoji { font-size: 3rem; }
+
+  .header h1 {
+    font-size: 2.5rem;
+    color: var(--blue-br);
+    letter-spacing: 0.02em;
+  }
+
+  .significado {
+    font-size: 1.1rem;
+    color: var(--text-light);
+  }
+
+  .categoria {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--green-br);
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .card :global(p) {
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+
+  .card :global(ul), .card :global(ol) {
+    margin: 0.5rem 0 1rem 1.5rem;
+    line-height: 1.7;
+  }
+
+  .card :global(strong) { font-weight: 700; }
+
+  blockquote {
+    background: var(--bg);
+    border-left: 4px solid var(--red-us);
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .contribuidor {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    color: var(--blue-br);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .back:hover { background: rgba(27, 58, 107, 0.1); }
+</style>
