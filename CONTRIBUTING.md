@@ -11,10 +11,11 @@
 
 ### Opção 2 — Pull Request direto no GitHub
 
-1. Faça fork do repositório
-2. Crie ou edite um arquivo em `content/verbetes/`
-3. Siga o formato de frontmatter abaixo
-4. Envie um Pull Request para a branch `main`
+1. Faça fork do repositório;
+2. Crie uma branch para sua contribuição;
+3. Crie ou edite um arquivo em `content/verbetes/`;
+4. Siga o formato de frontmatter abaixo;
+5. Envie um Pull Request para a branch `main`.
 
 ## Formato do verbete
 
