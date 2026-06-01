@@ -18,13 +18,13 @@ Este é o seu lugar. Pesquise, aprenda e contribua com o glossário.
 
 ## Stack
 
-| Camada         | Tecnologia                                                     |
-| -------------- | -------------------------------------------------------------- |
-| Framework      | [Astro](https://astro.build) 6 — Static Site Generator         |
-| CMS            | [Tina CMS](https://tina.io) 3 — opcional, via `/admin`         |
-| Linguagem      | TypeScript                                                     |
-| Markdown       | `gray-matter` + `marked`                                       |
-| Pacotes        | pnpm                                                           |
+| Camada    | Tecnologia                                             |
+| --------- | ------------------------------------------------------ |
+| Framework | [Astro](https://astro.build) 6 — Static Site Generator |
+| CMS       | [Tina CMS](https://tina.io) 3 — opcional, via `/admin` |
+| Linguagem | TypeScript                                             |
+| Markdown  | `gray-matter` + `marked`                               |
+| Pacotes   | pnpm                                                   |
 
 ## Pré-requisitos
 
@@ -33,47 +33,26 @@ Este é o seu lugar. Pesquise, aprenda e contribua com o glossário.
 
 ## Comandos
 
-| Comando               | Ação                                                |
-| --------------------- | --------------------------------------------------- |
-| `pnpm dev`            | Dev server Astro em `localhost:4321`                |
-| `pnpm build`          | Build estático para `dist/`                         |
-| `pnpm preview`        | Preview do build local                              |
-| `pnpm tina:dev`       | Tina CMS + Astro (precisa de `.env`)                |
-| `pnpm tina:build`     | Build do Tina CMS + Astro                           |
-| `pnpm astro`          | CLI do Astro (`astro add`, `astro check`, etc.)     |
-
-> O Tina CMS exige as variáveis `TINA_CLIENT_ID`, `TINA_TOKEN` e `TINA_BRANCH`.
-> Copie `.env.example` para `.env` e preencha. Sem elas, apenas `pnpm dev` funciona.
+| Comando           | Ação                                            |
+| ----------------- | ----------------------------------------------- |
+| `pnpm dev`        | Dev server Astro em `localhost:4321`            |
+| `pnpm build`      | Build estático para `dist/`                     |
+| `pnpm preview`    | Preview do build local                          |
+| `pnpm tina:dev`   | Tina CMS + Astro (precisa de `.env`)            |
+| `pnpm tina:build` | Build do Tina CMS + Astro                       |
+| `pnpm astro`      | CLI do Astro (`astro add`, `astro check`, etc.) |
 
 ## Como contribuir
 
-### Pelo Tina CMS (recomendado)
+Contribuições são bem-vindas! Veja o [`CONTRIBUTING.md`](CONTRIBUTING.md) para instruções detalhadas.
 
-Acesse `/admin` no site em desenvolvimento e use o formulário.
+**Forma de contribuir:**
 
-### Diretamente no repositório
-
-Adicione um arquivo `.md` em `content/verbetes/` com este frontmatter:
-
-```yaml
----
-abreviacao: "ASAP"
-significado: "As Soon As Possible"
-explicacao: "Usado para **urgência** em e-mails e mensagens."
-exemplo: "ASAP, please send the report."
-categoria: "comunicacao"
-contribuidor: "Seu Nome"   # opcional
----
-```
-
-> As categorias disponíveis são: `comunicacao`, `reuniao`, `tecnologia`, `slang`, `geral`.
-
-Após adicionar o arquivo, execute `pnpm build` para gerar a página estática.
+1. **Pull Request** — faça um fork, edite os arquivos em `content/verbetes/` e envie um PR
 
 ## Estrutura do projeto
 
-```
-/
+```bash
 ├── content/verbetes/      # Dados — arquivos .md (um por verbete)
 ├── src/
 │   ├── components/        # SearchBar.astro, VerbeteCard.astro
