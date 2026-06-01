@@ -1,11 +1,8 @@
 # build output
 dist/
+
 # generated types
 .astro/
-
-# Tina CMS generated
-public/admin/
-tina/__generated__/
 
 # dependencies
 node_modules/
@@ -26,3 +23,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+.agents/
+AGENTS.md
+
+# generated font files
