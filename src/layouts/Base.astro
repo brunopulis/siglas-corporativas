@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 export interface Props {
   title: string;
 }
@@ -17,7 +19,6 @@ const { title } = Astro.props;
     />
     <title>{title} | Dicionário Informal</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
     <a href="#main-content" class="sr-only">Ir para conteúdo principal</a>
