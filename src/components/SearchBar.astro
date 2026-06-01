@@ -3,46 +3,49 @@ const { placeholder = "Pesquisar abreviação..." } = Astro.props;
 ---
 
 <div class="search-wrapper">
-  <input
-    type="text"
-    id="search"
-    placeholder={placeholder}
-    class="search-input"
-    oninput="filterVerbetes(this.value)"
-  />
-  <span class="search-icon">{'\u{1F50D}'}</span>
+  <fieldset>
+    <legend class="sr-only">Pesquise a abreviação</legend>
+    <label for="search" class="sr-only">Pesquisar termo</label>
+    <input
+      type="text"
+      id="search"
+      placeholder={placeholder}
+      class="sr-only search-input"
+      oninput="filterVerbetes(this.value)"
+    />
+    <span class="search-icon" aria-hidden="true">{"\u{1F50D}"}</span>
+  </fieldset>
 </div>
 
 <div id="no-results" class="no-results" hidden>
-  {`\u{1F973}`} Nenhum verbete encontrado. Que tal <a href="/contribuir">contribuir com um novo</a>?
+  <p>
+    Nenhum verbete encontrado. Que tal <a href="/contribuir"
+      >contribuir com um novo</a
+    >?
+  </p>
 </div>
 
 <script>
   function filterVerbetes(query: string) {
     const q = query.toLowerCase().trim();
-    const cards = document.querySelectorAll('.verbete-card');
+    const cards = document.querySelectorAll(".verbete-card");
     let found = false;
 
     for (const card of cards) {
-      const text = (card as HTMLElement).dataset.search || '';
+      const text = (card as HTMLElement).dataset.search || "";
       const match = !q || text.includes(q);
       (card as HTMLElement).hidden = !match;
       if (match) found = true;
     }
 
-    const noResults = document.getElementById('no-results');
+    const noResults = document.getElementById("no-results");
     if (noResults) noResults.hidden = found || !q;
   }
 
   (window as any).filterVerbetes = filterVerbetes;
 </script>
 
-<style>
-  .search-wrapper {
-    position: relative;
-    margin-bottom: 1.5rem;
-  }
-
+<style is:global>
   .search-input {
     width: 100%;
     padding: 1rem 1.2rem 1rem 3rem;
@@ -54,28 +57,4 @@ const { placeholder = "Pesquisar abreviação..." } = Astro.props;
     outline: none;
     transition: all 0.2s;
   }
-
-  .search-input:focus {
-    border-color: var(--blue-br);
-    box-shadow: 0 0 0 4px rgba(27, 58, 107, 0.15);
-  }
-
-  .search-input::placeholder { color: var(--text-light); }
-
-  .search-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.3rem;
-  }
-
-  .no-results {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.1rem;
-    color: var(--text-light);
-  }
-
-  .no-results a { color: var(--blue-br); font-weight: 600; }
 </style>

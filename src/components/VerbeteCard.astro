@@ -9,16 +9,18 @@ export interface Props {
 const { abreviacao, significado, categoria, slug } = Astro.props;
 
 const emojiMap: Record<string, string> = {
-  comunicacao: '\u{1F4AC}',
-  reuniao: '\u{1F4C5}',
-  tecnologia: '\u{1F4BB}',
-  slang: '\u{1F60E}',
-  geral: '\u{1F4CC}',
+  comunicacao: "\u{1F4AC}",
+  reuniao: "\u{1F4C5}",
+  tecnologia: "\u{1F4BB}",
+  slang: "\u{1F60E}",
+  geral: "\u{1F4CC}",
 };
 ---
 
 <a href={`/${slug}`} class="card">
-  <span class="emoji">{emojiMap[categoria] || '\u{1F4CC}'}</span>
+  <span class="emoji" aria-hidden="true"
+    >{emojiMap[categoria] || "\u{1F4CC}"}</span
+  >
   <div class="info">
     <span class="abreviacao">{abreviacao}</span>
     <span class="significado">{significado}</span>
@@ -47,13 +49,27 @@ const emojiMap: Record<string, string> = {
     border-left-color: var(--red-us);
   }
 
-  .emoji { font-size: 1.8rem; }
+  .emoji {
+    font-size: 1.8rem;
+  }
 
-  .info { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
 
-  .abreviacao { font-size: 1.2rem; font-weight: 700; color: var(--blue-br); }
+  .abreviacao {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--blue-br);
+  }
 
-  .significado { font-size: 0.9rem; color: var(--text-light); }
+  .significado {
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
 
   .categoria {
     font-size: 0.75rem;

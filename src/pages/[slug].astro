@@ -9,7 +9,10 @@ const marked = new Marked();
 
 export async function getStaticPaths() {
   function slugify(text: string) {
-    return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
   }
 
   const contentDir = path.resolve("content/verbetes");
@@ -27,7 +30,13 @@ export async function getStaticPaths() {
 
 const { file, frontmatter, body } = Astro.props as {
   file: string;
-  frontmatter: { abreviacao: string; significado: string; categoria: string; exemplo: string; contribuidor?: string };
+  frontmatter: {
+    abreviacao: string;
+    significado: string;
+    categoria: string;
+    exemplo: string;
+    contribuidor?: string;
+  };
   body: string;
 };
 
@@ -35,7 +44,7 @@ const { content: markdownBody } = matter(body);
 const html = marked.parse(markdownBody) as string;
 
 const emojiMap: Record<string, string> = {
-  comunicacao: "\u{1F4AC}",
+  comunicao: "\u{1F4AC}",
   reuniao: "\u{1F4C5}",
   tecnologia: "\u{1F4BB}",
   slang: "\u{1F60E}",
@@ -45,8 +54,12 @@ const emojiMap: Record<string, string> = {
 
 <Base title={`${frontmatter.abreviacao} - ${frontmatter.significado}`}>
   <article class="verbete-page">
+    <a href="/" class="back">&larr; Voltar para home</a>
+
     <div class="header">
-      <span class="emoji">{emojiMap[frontmatter.categoria] || "\u{1F4CC}"}</span>
+      <span class="emoji" aria-hidden="true">
+        {emojiMap[frontmatter.categoria] || "\u{1F4CC}"}
+      </span>
       <div>
         <h1>{frontmatter.abreviacao}</h1>
         <p class="significado">{frontmatter.significado}</p>
@@ -55,25 +68,37 @@ const emojiMap: Record<string, string> = {
     </div>
 
     <div class="card explicacao">
-      <h2>{'\u{1F4DD}'} Explicação</h2>
+      <h2>
+        <span aria-hidden="true">{"\u{1F4DD}"}</span> Explicação
+      </h2>
       <div set:html={html} />
     </div>
 
     <div class="card exemplo">
-      <h2>{'\u{1F4AC}'} Exemplo de uso</h2>
-      <blockquote>{frontmatter.exemplo}</blockquote>
+      <h2>
+        <span aria-hidden="true">{"\u{1F4AC}"}</span> Exemplo de uso
+      </h2>
+      <blockquote>
+        {frontmatter.exemplo}
+      </blockquote>
     </div>
 
-    {frontmatter.contribuidor && (
-      <p class="contribuidor">{'\u{270D}\u{FE0F}'} Contribuído por {frontmatter.contribuidor}</p>
-    )}
-
-    <a href="/" class="back">&larr; Voltar para home</a>
+    {
+      frontmatter.contribuidor && (
+        <p class="contribuidor">
+          <span aria-hidden="true">{"\u{270D}\u{FE0F}"}</span> Contribuído por{" "}
+          {frontmatter.contribuidor}
+        </p>
+      )
+    }
   </article>
 </Base>
 
 <style>
-  .verbete-page { max-width: 700px; margin: 0 auto; }
+  .verbete-page {
+    max-width: 700px;
+    margin: 0 auto;
+  }
 
   .header {
     display: flex;
@@ -83,7 +108,9 @@ const emojiMap: Record<string, string> = {
     flex-wrap: wrap;
   }
 
-  .emoji { font-size: 3rem; }
+  .emoji {
+    font-size: 3rem;
+  }
 
   .header h1 {
     font-size: 2.5rem;
@@ -128,12 +155,15 @@ const emojiMap: Record<string, string> = {
     margin-bottom: 0.8rem;
   }
 
-  .card :global(ul), .card :global(ol) {
+  .card :global(ul),
+  .card :global(ol) {
     margin: 0.5rem 0 1rem 1.5rem;
     line-height: 1.7;
   }
 
-  .card :global(strong) { font-weight: 700; }
+  .card :global(strong) {
+    font-weight: 700;
+  }
 
   blockquote {
     background: var(--bg);
@@ -155,12 +185,14 @@ const emojiMap: Record<string, string> = {
   .back {
     display: inline-block;
     color: var(--blue-br);
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: 600;
     padding: 0.5rem 1rem;
-    border-radius: 8px;
+    margin-bottom: 1rem;
     transition: background 0.2s;
   }
 
-  .back:hover { background: rgba(27, 58, 107, 0.1); }
+  .back:hover {
+    text-decoration: none;
+  }
 </style>
