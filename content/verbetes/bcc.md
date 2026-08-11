@@ -5,7 +5,7 @@ categoria: tecnologia
 exemplo: "I'll BCC you on the email so the client doesn't know you're CC'd."
 ---
 
-**BCC** significa **"Blind Carbon Copy"** (Cópia Oculta). É uma功能 do e-mail que envia uma cópia para alguém sem que os outros destinatários vejam.
+**BCC** significa **"Blind Carbon Copy"** (Cópia Oculta). É uma função do e-mail que envia uma cópia para alguém sem que os outros destinatários vejam.
 
 Diferenças:
 - **TO:** destinatário principal
