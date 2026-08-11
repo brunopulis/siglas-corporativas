@@ -10,7 +10,7 @@ const { placeholder = "Pesquisar abreviação..." } = Astro.props;
       type="text"
       id="search"
       placeholder={placeholder}
-      class="sr-only search-input"
+      class="search-input"
       oninput="filterVerbetes(this.value)"
     />
     <span class="search-icon" aria-hidden="true">{"\u{1F50D}"}</span>
@@ -44,17 +44,3 @@ const { placeholder = "Pesquisar abreviação..." } = Astro.props;
 
   (window as any).filterVerbetes = filterVerbetes;
 </script>
-
-<style is:global>
-  .search-input {
-    width: 100%;
-    padding: 1rem 1.2rem 1rem 3rem;
-    font-size: 1.1rem;
-    border: 3px solid rgba(0, 104, 56, 0.3);
-    border-radius: 50px;
-    background: var(--bg-card);
-    color: var(--text);
-    outline: none;
-    transition: all 0.2s;
-  }
-</style>
